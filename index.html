@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body onload="onInit()">
+    <div class="lives">Lives: 3</div>
+    <button class="emojiBtn" onclick="emojiBtn(this)">😀</button>
+    <div class="timer">timer:</div>
+    <table>
+        <tbody class="board"></tbody>
+    </table>
+    <button class="btnLevel" onclick="easyBtn(this)">easy</button>
+    <button class="btnLevel" onclick="hardBtn(this)">hard</button>
+    <button class="btnLevel" onclick="expertBtn(this)">expert</button>
+    <p>Or Bracha</p>
+    <script src="js/game.js"></script>
+    <script src="js/util.js"></script>
+</body>
+
+</html>

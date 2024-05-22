@@ -1,0 +1,64 @@
+body {
+    background-color: gray;
+    color: white;
+    text-align: center;
+}
+
+table {
+    margin: auto;
+    border:solid 1px;
+    border-color: white
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+    cursor: pointer;
+ 
+    /* Default color for unrevealed tiles */
+    background-color: #eee;
+ 
+    /* Default color for unrevealed tile text */
+    color: #333;
+}
+.revealed {
+    /* Color for revealed tiles */
+    background-color: #ccc;
+ 
+    /* Color for revealed tile text */
+    color: #000;
+}
+.mine {
+    /* Color for mines */
+    background-color: #0f0909;
+}
+p{
+    font-size: 20px;
+}
+.btnLevel{
+    margin-top: 10px;
+}
+.emojiBtn{
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+.lives{
+    color: red;
+    margin-right: 35px;
+    display: inline-block;
+    background-color: black;
+    border:solid white;
+}
+.timer{
+    color: red;
+    display: inline-block;
+    margin-left: 35px;
+    background-color: black;
+    border:solid white;
+}
