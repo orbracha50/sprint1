@@ -77,10 +77,10 @@ function firstClick(elCell, i, j) {
     if (isfirstClick)
         onCellMarked(elCell, i, j)
 }
-function onCellClicked(event,elCell, i, j) {
-    if(event.button === 2) console.log('hi')
-    
-    
+function onCellClicked(event, elCell, i, j) {
+    if (event.button === 2) console.log('hi')
+
+
     if (isfirstClick === true) {
         firstClick(elCell, i, j)
         isfirstClick = false
@@ -173,4 +173,3 @@ function revealednegs(cellI, cellJ) {
 }
 //סמיילי מתחלף
 //מודל ניצחון/הפסד
-document.addEventListener('contextmenu', (event) => { console. log("🖱 right click detected!") })
