@@ -6,59 +6,119 @@ body {
 
 table {
     margin: auto;
-    border:solid 1px;
+    border: solid 1px;
     border-color: white
 }
 
 .cell {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
+   
+    width: 17px;
+    height: 17px;
     text-align: center;
     vertical-align: middle;
-    font-size: 20px;
+    font-size: 12px;
     cursor: pointer;
- 
+
+
     /* Default color for unrevealed tiles */
     background-color: #eee;
- 
+
     /* Default color for unrevealed tile text */
     color: #333;
 }
+
 .revealed {
-    /* Color for revealed tiles */
-    background-color: #ccc;
- 
-    /* Color for revealed tile text */
-    color: #000;
+    background-color: grey;
+     color: black;
 }
-.mine {
-    /* Color for mines */
-    background-color: #0f0909;
+.hint span{
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 25px;
+    cursor: pointer;
+    margin: 5px;
+    border: solid white;
 }
-p{
+.used{
+    background-color: yellow;
+    cursor: vertical-text;
+
+}
+.leftSafeClick{
+    margin-top: 3px;
+}
+p {
     font-size: 20px;
 }
-.btnLevel{
+
+.btnLevel {
     margin-top: 10px;
+    border-radius: 10%;
 }
-.emojiBtn{
+.btnLevel:hover{
+    color: white;
+    background-color: black;
+}
+.emojiBtn {
     height: 30px;
     border-radius: 50%;
     margin-bottom: 5px;
     font-size: 15px;
 }
-.lives{
+.emojiBtn:hover{
+    border: #333;
+}
+.lives {
     color: red;
     margin-right: 35px;
     display: inline-block;
     background-color: black;
-    border:solid white;
+    border: solid white;
 }
-.timer{
+
+.timer {
     color: red;
     display: inline-block;
     margin-left: 35px;
     background-color: black;
-    border:solid white;
+    border: solid da;
+}
+.safeclick{
+    height: 40px;
+    background-color: rgb(134, 171, 235);
+    border-radius: 10%;
+    margin-top: 10px;
+    color: white;
+}
+.safeclick:hover{
+    border: solid white;
+    font-weight: bold;
+
+}
+.modal {
+    display: none;
+    width: 300px;
+    height: 200px;
+    background-color: rgb(222, 226, 228);
+    color: black;
+    font-size: 32px;
+
+    position: absolute;
+    top: 200px;
+    left: calc(50% - 150px);
+}
+
+.restart-btn {
+    margin-top: 20px;
+    background-color: black;
+    color: rgb(230, 221, 221);
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 30px;
+}
+.restart-btn:hover{
+    color: black;
+    background-color: white;
+    border: 10px black;
 }
