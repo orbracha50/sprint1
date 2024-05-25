@@ -1,11 +1,11 @@
 'use strict'
 //todos 
-//1. reveal all number negs
+//1. reveal all number negs (almost but i didnt success)
 //2.  Manually positioned mines 
 //3. “UNDO” button
-//4.  Dark-Mode
+//4.  Dark-Mode (DONE)
 //5. MEGA HINT
-//6. MINE EXTERMINATOR
+//6. MINE EXTERMINATOR (DONE)
 var gBoard
 var isfirstClick = true
 var gLives = 3
@@ -15,6 +15,8 @@ const FLAG = '🚩'
 var hintMode
 var gElHint
 var gElSafeCell
+var isClickExterminator = false
+var gMinesToDisapper = []
 var userName = prompt('enter your name:')
 var gSafeClick = 3
 var ghitCellIdx = {
@@ -75,6 +77,9 @@ function setMinesNegsCount(board) {
         for (var j = 0; j < board[0].length; j++) {
             var currCellIdx = { i: i, j: j }
             board[i][j].minesAroundCount = cellMinesNegs(gBoard, currCellIdx.i, currCellIdx.j)
+            var elCell = document.querySelector(`.cell-${currCellIdx.i}-${currCellIdx.j}`)
+            if (elCell.classList.contains('revealed') && board[i][j].minesAroundCount !== 0)
+                elCell.innerText = board[i][j].minesAroundCount
         }
     }
 }
@@ -91,12 +96,17 @@ function cellMinesNegs(board, cellI, cellJ) {
     return negsCount
 }
 function firstClick(elCell, i, j) {
-    if (isfirstClick)
+    if (isfirstClick) {
+        setRandMines(gLevel.MINES)
+        setMinesNegsCount(gBoard)
         onCellMarked(elCell, i, j)
+        if (gBoard[i][j].minesAroundCount === 0) {
+            revealednegs(i, j)
+        }
+    }
 }
 function onCellClicked(elCell, i, j) {
     gBoard[i][j].isShown = true
-    console.log(gBoard)
     if (hintMode) {
         ghitCellIdx = {
             i: i,
@@ -111,8 +121,6 @@ function onCellClicked(elCell, i, j) {
     if (isfirstClick === true) {
         firstClick(elCell, i, j)
         isfirstClick = false
-        setRandMines(gLevel.MINES)
-        setMinesNegsCount(gBoard)
         startTimer()
         return
     }
@@ -139,9 +147,17 @@ function onCellClicked(elCell, i, j) {
 
         if (gBoard[i][j].minesAroundCount === 0) {
             var cellsReveal = revealednegs(i, j)
-            try1(cellsReveal)
+            while (cellsReveal.length > 0) {
+                for (var i = 0; i < cellsReveal.length; i++) {
+                    revealednegs(cellsReveal[i].i, cellsReveal[i].j)
+                    var noMinesAround = cellsReveal.shift() 
+                    if (gBoard[noMinesAround.i][noMinesAround.j].minesAroundCount === 0){
+                        revealednegs(noMinesAround.i,noMinesAround.j)
+                    }
+                }
+            }
+            checkWin()
         }
-        checkWin()
     }
 }
 function onCellMarked(elCell, i, j) {
@@ -153,6 +169,7 @@ function onCellMarked(elCell, i, j) {
         elCell.classList.add('revealed')
         if (gBoard[i][j].minesAroundCount === 0) return
         elCell.innerText = gBoard[i][j].minesAroundCount
+        colorNum(elCell)
     }
 
 }
@@ -171,6 +188,8 @@ function easyBtn() {
     gLevel.MINES = 2
     isfirstClick = true
     gLives = 3
+    gSafeClick = 3
+    isClickExterminator = false
     showHintBack()
     renderLives()
     onInit()
@@ -180,6 +199,8 @@ function hardBtn() {
     gLevel.MINES = 14
     isfirstClick = true
     gLives = 3
+    gSafeClick = 3
+    isClickExterminator = false
     showHintBack()
     renderLives()
     onInit()
@@ -189,6 +210,8 @@ function expertBtn() {
     gLevel.MINES = 32
     isfirstClick = true
     gLives = 3
+    gSafeClick = 3
+    isClickExterminator = false
     showHintBack()
     renderLives()
     onInit()
@@ -198,8 +221,10 @@ function playAgainBtn() {
     var modal = document.querySelector('.modal')
     modal.style.display = 'none'
     isfirstClick = true
+    gSafeClick = 3
     var elBtn = document.querySelector('.emojiBtn')
     elBtn.innerText = LIFE[0]
+    isClickExterminator = false
     showHintBack()
     renderLives()
     onInit()
@@ -208,6 +233,13 @@ function emojiBtn(elBtn) {
     if (elBtn.innerText === LIFE[0]) {
         isfirstClick = true
         gLives = 3
+        isClickExterminator = false
+        gSafeClick = 3
+        var elBtn = document.querySelector(`.safeclick`)
+        elBtn.style.backgroundColor = 'rgb(134, 171, 235)'
+        var elBtn1 = document.querySelector(`.leftSafeClick`)
+        elBtn1.innerText = gSafeClick +' left'
+        omSafeClick()
         showHintBack()
         renderLives()
         onInit()
@@ -242,11 +274,13 @@ function revealednegs(cellI, cellJ) {
 
 }
 function try1(arrcells) {
-    var cellsToReavel = arrcells
-        for (var i = 0; i < cellsToReavel.length; i++) {
-             var newcells = revealednegs(cellsToReavel[i].i, cellsToReavel[i].j)
+    var newcells = arrcells
+    while (newcells.length > 0) {
+        for (var i = 0; i < newcells.length; i++) {
+            var newcells = revealednegs(newcells[i].i, newcells[i].j)
         }
-        
+    }
+
 }
 function onRightClick(elcell) {
     if (elcell.classList.contains('revealed')) return
@@ -344,6 +378,8 @@ function closeHintNegs() {
         if (i < 0 || i >= gBoard.length) continue
         for (var j = ghitCellIdx.j - 1; j <= ghitCellIdx.j + 1; j++) {
             if (j < 0 || j >= gBoard[0].length) continue
+            gBoard[ghitCellIdx.i][ghitCellIdx.j].isShown = false
+            if (gBoard[i][j].isShown) continue
             var elCell = document.querySelector(`.cell-${i}-${j}`)
             elCell.classList.remove('revealed')
             elCell.innerText = ''
@@ -396,11 +432,59 @@ function omSafeClick() {
             setTimeout(closeSafeCell, 1000)
         }
     }
+    
 }
 function closeSafeCell() {
     console.log('hi')
     gElSafeCell.classList.remove('revealed')
     gElSafeCell.innerText = ''
+}
+function changeToDark(elBtn) {
+    if (elBtn.innerText === 'Dark Mode') {
+        elBtn.innerText = 'Light Mode'
+        document.querySelector('body').style.backgroundColor = 'black'
+    } else {
+        elBtn.innerText = 'Dark Mode'
+        document.querySelector('body').style.backgroundColor = 'grey'
+    }
+
+}
+function mineExterminator(elBtn) {
+    if (isfirstClick) return
+    if (isClickExterminator) return
+    var minesIdx = []
+    isClickExterminator = true
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            if (gBoard[i][j].isMine) {
+                var currCellIdx = { i: i, j: j }
+                minesIdx.push(currCellIdx)
+            }
+        }
+    }
+    for (var i = 0; i < 3; i++) {
+        var randIdx = getRandomInt(0, minesIdx.length)
+        var randMine = minesIdx[randIdx]
+        minesIdx.splice(randIdx, 1)
+        gBoard[randMine.i][randMine.j].isMine = false
+        var elCell = document.querySelector(`.cell-${randMine.i}-${randMine.j}`)
+        elCell.innerText = MINE
+        gMinesToDisapper.push(elCell)
+
+
+    }
+    setMinesNegsCount(gBoard)
+    console.log(gBoard)
+    onCellMarked(elCell, randMine.i, randMine.j)
+    setTimeout(minesDisapper, 1000)
+
+}
+function minesDisapper() {
+    for (var i = 0; i < 3; i++) {
+        gMinesToDisapper[i].innerText = ''
+        //gMinesToDisapper.shift()
+    }
+    gMinesToDisapper = []
 }
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();

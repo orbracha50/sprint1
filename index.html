@@ -7,23 +7,26 @@
 
 <body onload="onInit()">
     <div class="lives">Lives: 3</div>
-    <button class="emojiBtn" onclick="emojiBtn(this)" oncontextmenu ="hi()">😀</button>
-    <div class="timer">COMPLETED IN: </div>
-    
+    <button class="emojiBtn" onclick="emojiBtn(this)" oncontextmenu="hi()">😀</button>
+    <div class="timer">COMPLETED IN: </div> <br>
+    <button class="darkmode" onclick="changeToDark(this)">Dark Mode</button>
+    <button class="mineExterminator" onclick="mineExterminator(this)">🩻</button>
     <table>
         <tbody class="board"></tbody>
     </table>
     <div class="modal">
         <h3 class="msg"></h3>
-        <button class="restart-btn" onclick="playAgainBtn()">Play Again</button>
+        <button class="restart-btn" onclick="playAgainBtn(this)">Play Again</button>
     </div>
+
     <button class="btnLevel" onclick="easyBtn(this)">easy</button>
     <button class="btnLevel" onclick="hardBtn(this)">hard</button>
     <button class="btnLevel" onclick="expertBtn(this)">expert</button>
-    <div class="hint"><span class="hint1" onclick="hint(this)">💡</span ><span class="hint2" onclick="hint(this)">💡</span><span class="hint3" onclick="hint(this)">💡</span></div>
+    <div class="hint"><span class="hint1" onclick="hint(this)">💡</span><span class="hint2"
+            onclick="hint(this)">💡</span><span class="hint3" onclick="hint(this)">💡</span></div>
     <button class="safeclick" onclick="omSafeClick(this)">safe click</button>
     <br>
-    <a class="leftSafeClick" >3 left</a>
+    <a class="leftSafeClick">3 left</a>
     <div id="result"></div>
     <p>Or Bracha</p>
     <script src="js/game.js"></script>

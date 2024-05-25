@@ -9,7 +9,15 @@ table {
     border: solid 1px;
     border-color: white
 }
-
+.darkmode{
+    background-color: black;
+    color: white;
+    margin-right: 100px;
+    margin-bottom: 10px;
+}
+.mineExterminator{
+    
+}
 .cell {
    
     width: 17px;
